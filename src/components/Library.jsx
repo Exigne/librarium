@@ -15,10 +15,15 @@ export default function Library({ onOpenBook, addToast }) {
   const fetchBooks = async () => {
     try {
       const res = await fetch('/api/books')
-      const data = await res.json()
+      const text = await res.text()
+      let data
+      try { data = JSON.parse(text) } catch {
+        throw new Error(`Server error: ${text.slice(0, 120)}`)
+      }
+      if (!res.ok) throw new Error(data.error || 'Failed to load library')
       setBooks(data.books || [])
-    } catch {
-      addToast('Failed to load library', 'error')
+    } catch (err) {
+      addToast(err.message, 'error')
     } finally {
       setLoading(false)
     }
@@ -69,10 +74,12 @@ export default function Library({ onOpenBook, addToast }) {
         })
       })
 
-      if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.error || 'Upload failed')
+      const text = await res.text()
+      let result
+      try { result = JSON.parse(text) } catch {
+        throw new Error(`Server error: ${text.slice(0, 120)}`)
       }
+      if (!res.ok) throw new Error(result.error || 'Upload failed')
 
       addToast(`"${meta.title}" added to your library`)
       setShowUpload(false)
