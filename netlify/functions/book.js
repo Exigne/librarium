@@ -12,7 +12,25 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers, body: '' }
   }
 
-  const sql = neon(process.env.DATABASE_URL)
+  if (!process.env.DATABASE_URL) {
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: 'DATABASE_URL environment variable is not set' }),
+    }
+  }
+
+  let sql
+  try {
+    sql = neon(process.env.DATABASE_URL)
+  } catch (err) {
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: 'Failed to connect to database: ' + err.message }),
+    }
+  }
+
   const id = event.queryStringParameters?.id
 
   if (!id || isNaN(Number(id))) {
