@@ -13,7 +13,6 @@ exports.handler = async (event) => {
   try {
     // Auto-create table on first run
     await pool.query(`
-    await pool.query('DROP TABLE IF EXISTS books');
       CREATE TABLE IF NOT EXISTS books (
         id SERIAL PRIMARY KEY,
         title TEXT,
