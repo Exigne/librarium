@@ -11,7 +11,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    // Auto-create table on first run
+// Auto-create table on first run
     await pool.query(`
       CREATE TABLE IF NOT EXISTS books (
         id SERIAL PRIMARY KEY,
