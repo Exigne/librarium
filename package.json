@@ -1,0 +1,22 @@
+{
+  "name": "ebook-reader",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "epubjs": "^0.3.93",
+    "pdfjs-dist": "^4.0.379",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@neondatabase/serverless": "^0.9.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "netlify-cli": "^17.36.3",
+    "vite": "^5.4.0"
+  }
+}
